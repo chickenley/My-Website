@@ -117,7 +117,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--cyan); outline-
 .nav-links { list-style: none; display: flex; align-items: center; gap: 30px; margin: 0; padding: 0; }
 .nav-links a, .nav-cta { color: var(--muted); font-size: .86rem; transition: color .2s ease; }
 .nav-links a:hover, .nav-cta:hover { color: var(--text); }
-.theme-toggle {
+    .theme-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -247,7 +247,7 @@ h1 { margin-bottom: 22px; font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.04
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99999;
+  z-index: 99997;
   pointer-events: none;
   font-size: 35px;
   color: #C8A2E8;
@@ -266,6 +266,114 @@ h1 { margin-bottom: 22px; font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.04
   .flower-cursor {
     display: block;
   }
+
+  .head-cursor {
+    display: block;
+  }
+}
+
+/* Cute head cursor — sits on the right side, eyes track cursor, nods continuously on link hover */
+.head-cursor {
+  position: fixed;
+  top: 50%;
+  left: 24px;
+  z-index: 99998;
+  pointer-events: auto;
+  user-select: none;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.head-label {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #e88ab5;
+  text-shadow: 0 0 6px rgba(232, 138, 181, 0.6);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: bounce .8s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-4px); }
+}
+.head-face {
+  width: 76px;
+  height: 82px;
+  background: linear-gradient(135deg, #ffe0f0, #ffb3d9);
+  border: 2.5px solid #e88ab5;
+  border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+  position: relative;
+  box-shadow: 0 4px 14px rgba(232, 138, 181, 0.35);
+}
+.head-face::before,
+.head-face::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #ffb3d9, #e88ab5);
+  border: 2px solid #e88ab5;
+  border-radius: 50%;
+}
+.head-face::before { left: 6px; transform: rotate(-20deg); }
+.head-face::after { right: 6px; transform: rotate(20deg); }
+.blush {
+  position: absolute;
+  bottom: 28px;
+  width: 14px;
+  height: 8px;
+  background: #ff9ecf;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+.blush-left { left: 6px; }
+.blush-right { right: 6px; }
+.eye {
+  position: absolute;
+  top: 24px;
+  width: 16px;
+  height: 18px;
+  background: #fff;
+  border: 2px solid #3a2418;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.eye-left { left: 12px; }
+.eye-right { right: 12px; }
+.pupil {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #2a1810;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform .15s ease-out;
+}
+.mouth {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 10px;
+  border: 2px solid #e88ab5;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  background: transparent;
+}
+.head-cursor.nodding .head-face {
+  animation: nod .4s ease-in-out infinite;
+}
+@keyframes nod {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-6deg); }
+  75% { transform: rotate(6deg); }
 }
 
 img.profile-photo {
