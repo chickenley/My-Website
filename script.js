@@ -73,6 +73,76 @@ if (flower) {
   });
 }
 
+const head = document.querySelector(".head-cursor");
+const pupilL = head ? head.querySelector(".eye-left .pupil") : null;
+const pupilR = head ? head.querySelector(".eye-right .pupil") : null;
+
+if (head) {
+  // Set initial position
+  head.style.left = "24px";
+  head.style.top = "50%";
+  head.style.right = "auto";
+  head.style.transform = "translateY(-50%)";
+
+  const eyeRange = 3;
+
+  // Eyes track the cursor.
+  document.addEventListener("mousemove", (event) => {
+    const headRect = head.getBoundingClientRect();
+    const headCenterX = headRect.left + headRect.width / 2;
+    const headCenterY = headRect.top + headRect.height / 2;
+
+    // Calculate angle from head center to cursor
+    const dx = event.clientX - headCenterX;
+    const dy = event.clientY - headCenterY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const maxDist = Math.max(window.innerWidth, window.innerHeight) * 0.5;
+
+    // Scale movement by distance (closer cursor = bigger eye movement)
+    const scale = Math.min(1, distance / maxDist);
+    const moveX = (dx / distance) * eyeRange * scale;
+    const moveY = (dy / distance) * eyeRange * scale;
+
+    if (pupilL) { pupilL.style.transform = `translate(${moveX}px, ${moveY}px)`; }
+    if (pupilR) { pupilR.style.transform = `translate(${moveX}px, ${moveY}px)`; }
+  });
+
+  // Nod continuously while hovering a link, stop when leaving.
+  const links = document.querySelectorAll('a[href]');
+  links.forEach((link) => {
+    link.addEventListener("mouseenter", () => {
+      head.classList.add("nodding");
+    });
+    link.addEventListener("mouseleave", () => {
+      head.classList.remove("nodding");
+    });
+  });
+
+  // Teleport to a random position when the cursor passes over the head.
+  head.addEventListener("mouseenter", () => {
+    const maxX = window.innerWidth - head.offsetWidth - 40;
+    const maxY = window.innerHeight - head.offsetHeight - 40;
+    const x = Math.random() * maxX + 20;
+    const y = Math.random() * maxY + 20;
+    head.style.left = `${x}px`;
+    head.style.top = `${y}px`;
+    head.style.right = "auto";
+    head.style.transform = "translateY(-50%)";
+  });
+
+  // Also teleport on click/touch.
+  head.addEventListener("click", () => {
+    const maxX = window.innerWidth - head.offsetWidth - 40;
+    const maxY = window.innerHeight - head.offsetHeight - 40;
+    const x = Math.random() * maxX + 20;
+    const y = Math.random() * maxY + 20;
+    head.style.left = `${x}px`;
+    head.style.top = `${y}px`;
+    head.style.right = "auto";
+    head.style.transform = "translateY(-50%)";
+  });
+}
+
 // Light / dark theme toggle with a wave ripple effect.
 const themeToggle = document.querySelector("#theme-toggle");
 const root = document.documentElement;
